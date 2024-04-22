@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameplayScript : MonoBehaviour
@@ -14,13 +12,18 @@ public class GameplayScript : MonoBehaviour
 
     private void Update()
     {
-        //if(pressure below a certain threshold for 5 seconds(we can change this amount))
+    }
+
+    public void PressComplete()
+    {
+
+        playerInput[stepCount] = //Get pressure sensor number(we attach a number to each sensor)
+        stepCount++;
+
+        if (stepCount == 4)
         {
-            playerInput[stepCount] = //Get pressure sensor number(we attach a number to each sensor)
-            stepCount++;
-        }
-        if(stepCount == 4){
-            if(phaseCount == 1){
+            if (phaseCount == 1)
+            {
                 for (int i = 0; i < 4; i++)
                 {
                     if (playerInput[i] == character.phaseOne[i] && correct == true)
@@ -37,5 +40,6 @@ public class GameplayScript : MonoBehaviour
         }
 
     }
-
 }
+
+
