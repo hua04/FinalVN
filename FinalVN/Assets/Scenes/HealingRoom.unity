@@ -1098,6 +1098,61 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1348504795}
   m_CullTransparentMesh: 1
+--- !u!1 &1397926895
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1397926897}
+  - component: {fileID: 1397926896}
+  m_Layer: 0
+  m_Name: GameplayScript
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1397926896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1397926895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfb7c22390c4d4bab92319d2778b9579, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  phaseCount: 1
+  playerInput: 0000000000000000000000000000000000000000
+  stepCount: 0
+  correct: 1
+  character: {fileID: 11400000, guid: 515cee1014dc948dcabeea6097a69c14, type: 2}
+  playerInputScript: {fileID: 1477896898}
+  aKey: 97
+  sKey: 115
+  dKey: 100
+  fKey: 102
+  gKey: 103
+--- !u!4 &1397926897
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1397926895}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.96097106, y: 0.1048009, z: 0.024870422}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1477896897
 GameObject:
   m_ObjectHideFlags: 0
@@ -1109,7 +1164,7 @@ GameObject:
   - component: {fileID: 1477896899}
   - component: {fileID: 1477896898}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: PlayerInputScript
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1127,9 +1182,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 329f02868444757449d8073bde66da6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentKey: 0
   slowCount: 0.5
-  targetTime: 10
+  targetTime: 2
   progressBar: {fileID: 872542409}
+  gameplayScript: {fileID: 1397926896}
 --- !u!4 &1477896899
 Transform:
   m_ObjectHideFlags: 0
@@ -1203,5 +1260,6 @@ SceneRoots:
   - {fileID: 1236330771}
   - {fileID: 1963055970}
   - {fileID: 620463536}
-  - {fileID: 1477896899}
   - {fileID: 1238492143}
+  - {fileID: 1397926897}
+  - {fileID: 1477896899}
