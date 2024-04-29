@@ -1,4 +1,4 @@
-﻿title: Start
+﻿title: Intro
 tags:
 ---
 Jinx: “Ah, the prodigal witch returns!”
@@ -11,5 +11,28 @@ Jinx: “Give it a little look through, then we can start the day”
 Jinx: “...”
 Jinx: “Ready?”
 Jinx: “Time to let the day begin.”
+<<fade_out SceneChange>>
+<<set_scene SceneChange 1>>
+<<wait 3>>
+<<fade_in SceneChange>>
 
+===
+title: MaxwellFrontRoom
+tags:
+---
+???: “You the healer?” 
+???: “...”
+???: “Ah, right. I was told that the healer was a person of few words.”
+???: “I underestimated how few though.”
+???: “Ahem, anyways-”
+Maxwell: “I’m new to these parts, the name’s Maxwell.”
+Maxwell: “Let’s cut to the chase-”
+Maxwell: “A few weeks back I started getting these itchy lumps on my arms.”
+Maxwell: “an' I've been feeling awfully warm out of nowhere.”
+Maxwell: “Thought it might be a reaction to somethin’ in the forest, and it would just go away on its own.”
+Maxwell: “But well… They're still here.” 
+Maxwell: “Think you can do somethin’ about it?”
+Maxwell: “...”
+Maxwell: “I’ll take that as a yes.”
+<<button_appear SceneChange>>
 ===
