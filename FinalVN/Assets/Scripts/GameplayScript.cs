@@ -25,6 +25,8 @@ public class GameplayScript : MonoBehaviour
 
 	private int currentKey = 0;
 
+	private int[] sensorValues = new int[5];
+
 	private void Start()
 	{
 		serialPort = new SerialPort("/dev/cu.usbmodem11401", 9600);
@@ -35,30 +37,30 @@ public class GameplayScript : MonoBehaviour
 	{
 		ArduinoCode();
 
-		if (aKey == playerInputScript.currentKey)
-		{
-			currentKey = 1;
-		}
+		//if (aKey == playerInputScript.currentKey)
+		//{
+		//	currentKey = 1;
+		//}
 
-		if (sKey == playerInputScript.currentKey)
-		{
-			currentKey = 2;
-		}
+		//if (sKey == playerInputScript.currentKey)
+		//{
+		//	currentKey = 2;
+		//}
 
-		if (dKey == playerInputScript.currentKey)
-		{
-			currentKey = 3;
-		}
+		//if (dKey == playerInputScript.currentKey)
+		//{
+		//	currentKey = 3;
+		//}
 
-		if (fKey == playerInputScript.currentKey)
-		{
-			currentKey = 4;
-		}
+		//if (fKey == playerInputScript.currentKey)
+		//{
+		//	currentKey = 4;
+		//}
 
-		if (gKey == playerInputScript.currentKey)
-		{
-			currentKey = 5;
-		}
+		//if (gKey == playerInputScript.currentKey)
+		//{
+		//	currentKey = 5;
+		//}
 	}
 
 	public void PressComplete()
@@ -136,7 +138,7 @@ public class GameplayScript : MonoBehaviour
 
 	}
 
-	public void ArduinoCode()
+	void ArduinoCode()
 	{
 		if (serialPort.IsOpen)
 		{
@@ -151,15 +153,12 @@ public class GameplayScript : MonoBehaviour
 				// Ensure there are exactly 5 values in the data (for pins A0 to A4)
 				if (dataValues.Length == 5)
 				{
-					// Initialize an array to hold the integer values
-					int[] intValues = new int[5];
-
-					// Try to parse each value as an integer
+					// Parse each value as an integer and store in sensorValues array
 					for (int i = 0; i < 5; i++)
 					{
 						if (int.TryParse(dataValues[i], out int intValue))
 						{
-							intValues[i] = intValue;
+							sensorValues[i] = intValue;
 						}
 						else
 						{
@@ -167,9 +166,8 @@ public class GameplayScript : MonoBehaviour
 							return; // Exit the function if parsing fails
 						}
 					}
-
-					// Log the values with their corresponding pin names
-					LogValues(intValues);
+					// Log values if desired
+					LogValues(sensorValues);
 				}
 				else
 				{
@@ -188,21 +186,56 @@ public class GameplayScript : MonoBehaviour
 		// Log all values with their corresponding pin names (A0, A1, A2, A3, A4)
 		Debug.Log($"A0: {values[0]}, A1: {values[1]}, A2: {values[2]}, A3: {values[3]}, A4: {values[4]}");
 
-		// Check each value and log whether it is less than 50
+		// Define a threshold value to determine if a sensor is being pressed
+		int threshold = 50;
+
+		// Define a target press duration (in seconds) to fully fill the progress bar
+		float targetPressDuration = 5.0f;
+
+		// Array to keep track of the press time for each sensor
+		float[] pressTimes = new float[5];
+
+		// Check each value and update the corresponding progress bar in PlayerInput
 		for (int i = 0; i < values.Length; i++)
 		{
-			string pinName = $"A{i}"; // Pin name (A0 to A4)
-			int value = values[i]; // Value corresponding to the pin
-			if (value < 50)
+			// Check if the sensor is being pressed (value is under the threshold)
+			if (values[i] < threshold)
 			{
-				Debug.Log($"{pinName} value {value} < 50.");
+				// Increment the press time for this sensor
+				pressTimes[i] += Time.deltaTime;
 			}
 			else
 			{
-				Debug.Log($"{pinName} value {value} > 50.");
+				// Reset the press time for this sensor if it's not being pressed
+				pressTimes[i] = 0f;
 			}
+
+			// Calculate the fill amount for the progress bar based on the press time
+			float fillAmount = pressTimes[i] / targetPressDuration;
+
+			// Clamp the fill amount between 0 and 1
+			fillAmount = Mathf.Clamp01(fillAmount);
+
+			// Update the corresponding progress bar in PlayerInput
+			playerInputScript.UpdateProgressBar(i, fillAmount);
 		}
 	}
+
+	public int GetSensorValue(int index)
+	{
+		// Check if index is within bounds of sensorValues array
+		if (index >= 0 && index < sensorValues.Length)
+		{
+			// Return the sensor value at the specified index
+			return sensorValues[index];
+		}
+		else
+		{
+			Debug.LogError($"Index {index} out of bounds. Valid range is 0 to {sensorValues.Length - 1}.");
+			return -1; // Return an invalid value if index is out of bounds
+		}
+	}
+
 
 }
 

@@ -3,96 +3,78 @@ using UnityEngine.UI;
 
 public class PlayerInput : MonoBehaviour
 {
-    // Define the count variable
-    private int holdCount = 0;
+    // Array of progress bar images (A0–A4)
+    public Image[] progressBars;
 
-    // Store the current key being held down
-    public KeyCode currentKey = KeyCode.None;
+    // Array to track the hold duration for each sensor (A0–A4)
+    private float[] sensorTimers = new float[5];
 
-    private float timer = 0f;
-    public float slowCount = 0.5f;
-    public float targetTime = 2f;
-    private float elapsedTime = 0f;
+    // Target time for progress bar to fill up fully (e.g., 5 seconds)
+    private float targetTime = 5f;
 
-    public Image progressBar;
+    // Threshold for sensor values to consider the sensor pressed
+    private const float sensorThreshold = 50f;
 
+    // Reference to the GameplayScript
     public GameplayScript gameplayScript;
 
     void Update()
     {
-        // Variable to check if a different key is pressed
-        bool keyChanged = false;
-
-        // Loop through all possible key codes
-        foreach (KeyCode key in System.Enum.GetValues(typeof(KeyCode)))
+        // Iterate through each sensor and its corresponding progress bar
+        for (int i = 0; i < progressBars.Length; i++)
         {
-            // Check if this key is being pressed
-            if (Input.GetKey(key))
+            // Get the current sensor value from GameplayScript
+            float sensorValue = gameplayScript.GetSensorValue(i);
+
+            // Check if the sensor value is greater than or equal to the threshold
+            if (sensorValue >= sensorThreshold)
             {
-                // If the key is different from the current key
-                if (key != currentKey)
-                {
-                    // Set current key to the new key
-                    currentKey = key;
-                    // Reset the count since a different key is being pressed
-                    holdCount = 0;
-                    keyChanged = true;
+                // Reset the sensor timer
+                sensorTimers[i] = 0f;
 
-                    // Reset timers
-                    timer = 0f;
-                    elapsedTime = 0f;
-                }
+                // Reset the progress bar fill amount to 0
+                progressBars[i].fillAmount = 0f;
+            }
+            else
+            {
+                // Increment the timer for the current sensor
+                sensorTimers[i] += Time.deltaTime;
 
-                // Handle hold count
-                timer += Time.deltaTime;
-                if (timer >= slowCount)
-                {
-                    holdCount++;
-                    timer = 0f;
-                }
-
-                // Increment elapsed time
-                elapsedTime += Time.deltaTime;
-
-                // Calculate the fill amount based on elapsed time and target time
-                float fillAmount = elapsedTime / targetTime;
+                // Calculate the fill amount based on the sensor timer and target time
+                float fillAmount = sensorTimers[i] / targetTime;
 
                 // Clamp the fill amount between 0 and 1
                 fillAmount = Mathf.Clamp01(fillAmount);
 
-                // Update progress bar fill amount
-                if (progressBar != null)
-                {
-                    progressBar.fillAmount = fillAmount;
-                }
+                // Update the corresponding progress bar
+                progressBars[i].fillAmount = fillAmount;
 
-                // Check if the progress bar is full
-                if (fillAmount >= 1f)
+                // If the progress bar is full (fillAmount >= 1.0f), call PressComplete()
+                if (fillAmount >= 1.0f)
                 {
-                    Debug.Log("Progress bar is full!");
                     gameplayScript.PressComplete();
 
-                    // Reset elapsed time
-                    elapsedTime = 0f;
+                    // Reset the timer and progress bar fill amount to 0
+                    sensorTimers[i] = 0f;
+                    progressBars[i].fillAmount = 0f;
                 }
-
-                break; // Exit the loop once we find a pressed key
             }
         }
-
-        // If no key is being pressed, reset the current key and timers
-        if (!keyChanged && !Input.anyKey)
-        {
-            currentKey = KeyCode.None;
-            timer = 0f;
-            elapsedTime = 0f;
-        }
-
-        // Output the current hold count to the console (optional)
-        Debug.Log($"Key: {currentKey}, Hold count: {holdCount}");
     }
 
-
+    public void UpdateProgressBar(int index, float fillAmount)
+    {
+        // Check if the index is within bounds of the progressBars array
+        if (index >= 0 && index < progressBars.Length)
+        {
+            // Update the fill amount of the progress bar at the specified index
+            progressBars[index].fillAmount = fillAmount;
+        }
+        else
+        {
+            // Log an error message if the index is out of bounds
+            Debug.LogError($"Index {index} is out of bounds. Valid range is 0 to {progressBars.Length - 1}.");
+        }
+    }
 
 }
-
