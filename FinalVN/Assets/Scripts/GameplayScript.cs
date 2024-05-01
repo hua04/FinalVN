@@ -30,6 +30,7 @@ public class GameplayScript : MonoBehaviour
 	private void Update()
 	{
 		ArduinoCode();
+		ActivateScript();
 
 		const int threshold = 50;
 
@@ -79,6 +80,8 @@ public class GameplayScript : MonoBehaviour
 
 			if (phaseCount == 2)
 			{
+				//disable progressbar script
+				playerInputScript.enabled = false;
 
 				for (int i = 0; i < 4; i++)
 				{
@@ -102,8 +105,6 @@ public class GameplayScript : MonoBehaviour
 
 			if (phaseCount == 3)
 			{
-				//disable script
-				//Debug.Log("test");
 
 				for (int i = 0; i < 4; i++)
 				{
@@ -267,7 +268,14 @@ public class GameplayScript : MonoBehaviour
 		return true;
 	}
 
-
+	public void ActivateScript()
+	{
+		if (Input.GetKeyDown(KeyCode.P) && playerInputScript.enabled == false)
+		{
+			playerInputScript.enabled = true;
+			Debug.Log("enabling script");
+		}
+	}
 }
 
 

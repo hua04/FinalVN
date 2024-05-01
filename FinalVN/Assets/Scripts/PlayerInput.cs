@@ -77,4 +77,13 @@ public class PlayerInput : MonoBehaviour
         }
     }
 
+    public void ActivateScript()
+    {
+        if (Input.GetKeyDown(KeyCode.P) && gameplayScript.enabled == false)
+        {
+            gameplayScript.enabled = true;
+            Debug.Log("enabling script");
+        }
+    }
+
 }
