@@ -32,7 +32,7 @@ public class GameplayScript : MonoBehaviour
 		ArduinoCode();
 		ActivateScript();
 
-		const int threshold = 50;
+		const int threshold = 100;
 
 		//AO
 		if (sensorValues[0] < threshold)
@@ -197,7 +197,7 @@ public class GameplayScript : MonoBehaviour
 		//Debug.Log($"A0: {values[0]}, A1: {values[1]}, A2: {values[2]}, A3: {values[3]}, A4: {values[4]}");
 
 		// Define a threshold value to determine if a sensor is being pressed
-		int threshold = 50;
+		int threshold = 100;
 
 		// Define a target press duration (in seconds) to fully fill the progress bar
 		float targetPressDuration = 5.0f;
