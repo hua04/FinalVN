@@ -17,12 +17,6 @@ public class GameplayScript : MonoBehaviour
 
 	public PlayerInput playerInputScript;
 
-	public KeyCode aKey = KeyCode.A;
-	public KeyCode sKey = KeyCode.S;
-	public KeyCode dKey = KeyCode.D;
-	public KeyCode fKey = KeyCode.F;
-	public KeyCode gKey = KeyCode.G;
-
 	private int currentKey = 0;
 
 	private int[] sensorValues = new int[5];
@@ -37,31 +31,41 @@ public class GameplayScript : MonoBehaviour
 	{
 		ArduinoCode();
 
-		//if (aKey == playerInputScript.currentKey)
-		//{
-		//	currentKey = 1;
-		//}
+		const int threshold = 50;
 
-		//if (sKey == playerInputScript.currentKey)
-		//{
-		//	currentKey = 2;
-		//}
+		//AO
+		if (sensorValues[0] < threshold)
+		{
+			currentKey = 1;
+		}
 
-		//if (dKey == playerInputScript.currentKey)
-		//{
-		//	currentKey = 3;
-		//}
+		//A1
+		if (sensorValues[1] < threshold)
+		{
+			currentKey = 2;
+		}
 
-		//if (fKey == playerInputScript.currentKey)
-		//{
-		//	currentKey = 4;
-		//}
+		//A2
+		if (sensorValues[2] < threshold)
+		{
+			currentKey = 3;
+		}
 
-		//if (gKey == playerInputScript.currentKey)
-		//{
-		//	currentKey = 5;
-		//}
+		//A3
+		if (sensorValues[3] < threshold)
+		{
+			currentKey = 4;
+		}
+
+		//A4
+		if (sensorValues[4] < threshold)
+		{
+			currentKey = 5;
+		}
+
 	}
+
+
 
 	public void PressComplete()
 	{
@@ -73,65 +77,70 @@ public class GameplayScript : MonoBehaviour
 		{
 			phaseCount++;
 
-			if (phaseCount == 1)
+			if (phaseCount == 2)
 			{
+
 				for (int i = 0; i < 4; i++)
 				{
 					if (playerInput[i] == character.phaseOne[i] && correct == true)
 					{
 						correct = true;
+						//Debug.Log(playerInput[i] + "=" + character.phaseOne[i]);
 					}
 					else
 					{
 						correct = false;
+						//Debug.Log("False");
 					}
 				}
+
 				Array.Clear(playerInput, 0, playerInput.Length);
 				stepCount = 0;
-				//Debug.Log("Phase");
-				//phaseCount++;
-				//go to story module;
+
 			}
 
 
-			if (phaseCount == 2)
+			if (phaseCount == 3)
 			{
+				//disable script
+				//Debug.Log("test");
+
 				for (int i = 0; i < 4; i++)
 				{
 					if (playerInput[i] == character.phaseTwo[i] && correct == true)
 					{
 						correct = true;
+						//Debug.Log(playerInput[i] + "=" + character.phaseOne[i]);
 					}
 					else
 					{
 						correct = false;
+						//Debug.Log("False");
 					}
 				}
 				Array.Clear(playerInput, 0, playerInput.Length);
 				stepCount = 0;
-				//Debug.Log("Phase");
-				//phaseCount++;
-				//go to story module;
+
 			}
 
-			if (phaseCount == 3)
+			if (phaseCount == 4)
 			{
 				for (int i = 0; i < 4; i++)
 				{
 					if (playerInput[i] == character.phaseThree[i] && correct == true)
 					{
 						correct = true;
+						//Debug.Log(playerInput[i] + "=" + character.phaseOne[i]);
 					}
 					else
 					{
 						correct = false;
+						//Debug.Log("False");
 					}
 				}
 				Array.Clear(playerInput, 0, playerInput.Length);
 				stepCount = 0;
-				//Debug.Log("Phase");
-				//phaseCount++;
-				//go to story module;
+
 			}
 
 		}
@@ -184,7 +193,7 @@ public class GameplayScript : MonoBehaviour
 	void LogValues(int[] values)
 	{
 		// Log all values with their corresponding pin names (A0, A1, A2, A3, A4)
-		Debug.Log($"A0: {values[0]}, A1: {values[1]}, A2: {values[2]}, A3: {values[3]}, A4: {values[4]}");
+		//Debug.Log($"A0: {values[0]}, A1: {values[1]}, A2: {values[2]}, A3: {values[3]}, A4: {values[4]}");
 
 		// Define a threshold value to determine if a sensor is being pressed
 		int threshold = 50;
@@ -234,6 +243,28 @@ public class GameplayScript : MonoBehaviour
 			Debug.LogError($"Index {index} out of bounds. Valid range is 0 to {sensorValues.Length - 1}.");
 			return -1; // Return an invalid value if index is out of bounds
 		}
+	}
+
+	private bool CompareArrays(int[] array1, int[] array2)
+	{
+		// Ensure both arrays have the same length
+		if (array1.Length != array2.Length)
+		{
+			return false;
+		}
+
+		// Compare each element in the arrays
+		for (int i = 0; i < array1.Length; i++)
+		{
+			// If any element doesn't match, return false
+			if (array1[i] != array2[i])
+			{
+				return false;
+			}
+		}
+
+		// If all elements match, return true
+		return true;
 	}
 
 
