@@ -2,27 +2,40 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.SocialPlatforms.Impl;
 using Yarn.Unity;
 
 public class DialogueController : MonoBehaviour
 {
-    public int dialogueCount=0;
-    public string[] dialogueList= { "Intro", "MaxwellFrontRoom" };
+    public static int dialogueCount=0;
+    public static string[] dialogueList= { "Intro", "MFrontRoomOne", "MHealingZero" };
     public DialogueRunner dialogueRunner;
     public Animator animator; 
     public Sprite[] characters;
     public Sprite[] jinxExpression;
     public Sprite[] maxExpression;
+    public GameplayScript gameplayScript;
     public void Start()
     {
         DontDestroyOnLoad(this.gameObject);
         dialogueRunner = FindObjectOfType<Yarn.Unity.DialogueRunner>();
     }
+
+    [YarnCommand("check")]
+    public bool Check()
+    {
+        return gameplayScript.correct;
+    }
     public void Dialogue()
     {
-        string nodeName = dialogueList[dialogueCount];
+        if(SceneManager.GetActiveScene().name== "FrontRoom")
+        {
+            string nodeName = dialogueList[dialogueCount];
 
-        dialogueRunner.StartDialogue(nodeName);
+            dialogueRunner.StartDialogue(nodeName);
+        }
+       
     }
     [YarnCommand("fade_out")]
     public void FadeOut()
