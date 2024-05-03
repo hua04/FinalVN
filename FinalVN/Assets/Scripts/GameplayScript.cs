@@ -29,7 +29,7 @@ public class GameplayScript : MonoBehaviour
 
 	private void Start()
 	{
-		serialPort = new SerialPort("/dev/cu.usbmodem11401", 9600);
+		serialPort = new SerialPort("COM8", 9600);
 		serialPort.Open();
 	}
 

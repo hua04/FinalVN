@@ -3,10 +3,15 @@ tags:
 ---
 Jinx: “Ah, the prodigal witch returns!”
 Jinx: “Joking, joking. I’m glad you’re back.”
-Jinx: “Though…”
+Jinx: “...”
+Jinx: “Why do you look so confused? I’m talking about you, dear healer.”
+Jinx: “...”
+Jinx: “Hmm, I see.”
+Jinx: “Though you look identical to the dear witch I knew...”
 Jinx: “Your spirit has changed.”
 Jinx: “No matter- Your role here remains the same.”
-Jinx: “Surely you haven’t forgotten, but in case you need a little refresher, all answers can be found in that little book of yours”
+Jinx: “In case you need a little refresher, all answers can be found in that little book of yours”
+Jinx: “It should be on your desk somewhere… with “The Healer’s Guide” on the cover.”
 Jinx: “Give it a little look through, then we can start the day”
 Jinx: “...”
 Jinx: “Ready?”
@@ -17,7 +22,7 @@ Jinx: “Time to let the day begin.”
 <<fade_in SceneChange>>
 
 ===
-title: MaxwellFrontRoom
+title: MFrontRoomOne
 tags:
 ---
 ???: “You the healer?” 
@@ -30,9 +35,155 @@ Maxwell: “Let’s cut to the chase-”
 Maxwell: “A few weeks back I started getting these itchy lumps on my arms.”
 Maxwell: “an' I've been feeling awfully warm out of nowhere.”
 Maxwell: “Thought it might be a reaction to somethin’ in the forest, and it would just go away on its own.”
-Maxwell: “But well… They're still here.” 
+Maxwell: “But well… They’re still here.” 
 Maxwell: “Think you can do somethin’ about it?”
 Maxwell: “...”
 Maxwell: “I’ll take that as a yes.”
 <<button_appear SceneChange>>
 ===
+title: MHealingZero
+tags:
+---
+Maxwell: “Hmm? Oh, back there?”
+Maxwell: “Ah, that must be where your healing room is?”
+Maxwell: “Well then, lead the way.”
+<<fade_in SceneChange>>
+<<wait 1.5>>
+Maxwell: “Nice setup you’ve got here.”
+
+===
+title: MHealingOneCorrect
+tags:
+---
+Maxwell: “Oh, that’s soothing…”
+ <<jump MHealingOne>>
+
+===
+title: MHealingOne
+tags:
+---
+Maxwell: “Say, I bet you get a lot of people in here blabbing their secrets to you, huh?”
+Maxwell: “I mean, it’s comfortable back here.”
+Maxwell: “An’ talkin’ to you is kinda like… talkin’ to a void.”
+Maxwell: “No offense, of course.”
+===
+title: MHealingTwoCorrect
+tags:
+---
+Maxwell: “The itching, it’s fading!”
+Maxwell: “Man, you’re good at this.”
+
+ <<jump MHealingTwo>>
+
+===
+title: MHealingTwo
+tags:
+---
+Maxwell: “So uh… it’s not like I’ve got any big secrets or nothin’.”
+Maxwell: “But you mind listening to some of my woes?”
+Maxwell: “Pinch me or somethin’ if you don’t wanna hear my blabberin’. ”
+Maxwell: “ ... ” (Or no speech bubble)
+===
+title: MHealingTwoReject
+tags:
+---
+Maxwell: “Yeowch!”
+Maxwell: “Ok, got it, got it. Professional boundaries and all.”
+<<declare $listened = false>>
+===
+title: MHealingTwoListen
+tags:
+---
+Maxwell: “So ya know, I recently moved into this area.”
+Maxwell: “An’ that was because, well, I wanted to try my hand at adventurin’.”
+Maxwell: “But we’re a few months in, and all I got to show for it are these darn lumps.”
+Maxwell: “It’s only been a few months, but I’m all alone out here and… it’s rough having nothing to come home to.”
+Maxwell: “Everyone wants to talk about persistence and hard work payin’ off, but…”
+Maxwell: “What if it never does?”
+Maxwell: “Maybe I just ain’t cut out for this adventurin’ stuff…”
+Maxwell: “...”
+Maxwell: “That’s all! Just needed to get that off my chest.”
+Maxwell: “Thanks for listenin’.”
+<<declare $listened = true>>
+===
+title: MHealingThreeCorrect
+tags:
+---
+Maxwell: “The lumps! They’re all gone.”
+Maxwell: “You’re an absolute miracle worker.”
+<<if $listened>>
+Maxwell: “And, thanks for listenin’ to me.”
+===
+title: MHealingThreeWrong
+tags:
+---
+Maxwell: “Huh, nothin’s really changed.”
+Maxwell: “...”
+Maxwell: “Maybe I need to sleep on it, eh?”
+<<if $listened>>
+Maxwell: “But, thanks for listenin’ to me.”
+===
+title: MHealingThreeCorrect
+tags:
+---
+Maxwell: “The lumps! They’re all gone.”
+Maxwell: “You’re an absolute miracle worker.”
+<<if $listened>>
+Maxwell: “And, thanks for listenin’ to me.”
+===
+title: MFinishCorrect
+tags:
+---
+<<if $listened>>
+Maxwell: “You know, I think it’s all gonna be alright.”
+Maxwell: “I came in here feeling all muddled up, but now-”
+Maxwell: “My head feels clearer, and I ain’t stressin’ anymore.”
+Maxwell: “All thanks to you.”
+Maxwell: “What do I owe you?”
+Maxwell: “...”
+Maxwell: “Why’re you shakin’ your head like that? Aw c'mon, I gotta give you something.”
+Maxwell: “How about this.”
+*Carved statue appears on the counter*
+Maxwell: “Carved that one myself. Wouldn’t say I’m a pro or anythin’, but not too shabby, if I do say so myself.”
+Maxwell: “Take care, doc.”
+
+<<else>>
+<<jump MFinishIncorrect>>
+<<endif>>
+===
+title: MFinishIncorrect
+tags:
+---
+Maxwell: “What do I owe you?”
+Maxwell: “...”
+Maxwell: “You shakin’ your head like that… does that mean nothin’?”
+Maxwell: “Alright, well, if you say so.”
+Maxwell: “I’ll be headin’ out then.” 
+===
+
+title: EndDayCorrect
+tags:
+---
+Jinx: “Looks like that’s gonna be it for today.”
+Jinx: “Not bad for being out of practice. I’m sure they’re pleased with the tenacity of your abilities.”
+Jinx: “Or were you perhaps still healing during our time apart?”
+Jinx: “...”
+Jinx: “No matter, time for rest, hm?”
+Jinx: “Tomorrow is a new day.”
+===
+
+title: EndDayINorrect
+tags:
+---
+Jinx: “Looks like that’s gonna be it for today.”
+Jinx: “You’re a little out of practice, hmm?”
+Jinx: “Not to worry, it’s to be expected.”
+Jinx: “I’m sure they will understand.”
+Jinx: “No matter, time for rest, hm?”
+Jinx: “Tomorrow is a new day.”
+
+===
+
+
+
+
