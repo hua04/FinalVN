@@ -52,6 +52,7 @@ public class PlayerInput : MonoBehaviour
                 // If the progress bar is full (fillAmount >= 1.0f), call PressComplete()
                 if (fillAmount >= 1.0f)
                 {
+                    Debug.Log("Hiii");
                     gameplayScript.PressComplete();
 
                     // Reset the timer and progress bar fill amount to 0

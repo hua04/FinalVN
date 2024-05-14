@@ -50,6 +50,7 @@ Maxwell: “Well then, lead the way.”
 <<fade_in SceneChange>>
 <<wait 1.5>>
 Maxwell: “Nice setup you’ve got here.”
+<<sensor_on GameplayScript>>
 
 ===
 title: MHealingOneCorrect
@@ -66,6 +67,7 @@ Maxwell: “Say, I bet you get a lot of people in here blabbing their secrets to
 Maxwell: “I mean, it’s comfortable back here.”
 Maxwell: “An’ talkin’ to you is kinda like… talkin’ to a void.”
 Maxwell: “No offense, of course.”
+<<sensor_on GameplayScript>>
 ===
 title: MHealingTwoCorrect
 tags:
@@ -81,15 +83,16 @@ tags:
 ---
 Maxwell: “So uh… it’s not like I’ve got any big secrets or nothin’.”
 Maxwell: “But you mind listening to some of my woes?”
-Maxwell: “Pinch me or somethin’ if you don’t wanna hear my blabberin’. ”
-Maxwell: “ ... ” (Or no speech bubble)
+Maxwell: “...”
+Maxwell: “Oh, right, no talking.”
+Maxwell: “Uh... let's see...”
+Maxwell: “Left hand yes, right hand no? Your left and right, not mine.”
+
 ===
 title: MHealingTwoReject
 tags:
 ---
-Maxwell: “Yeowch!”
-Maxwell: “Ok, got it, got it. Professional boundaries and all.”
-<<declare $listened = false>>
+Maxwell: “Got it, got it. Professional boundaries and all.”
 ===
 title: MHealingTwoListen
 tags:
@@ -104,14 +107,14 @@ Maxwell: “Maybe I just ain’t cut out for this adventurin’ stuff…”
 Maxwell: “...”
 Maxwell: “That’s all! Just needed to get that off my chest.”
 Maxwell: “Thanks for listenin’.”
-<<declare $listened = true>>
+LISTENED TRUE
 ===
 title: MHealingThreeCorrect
 tags:
 ---
 Maxwell: “The lumps! They’re all gone.”
 Maxwell: “You’re an absolute miracle worker.”
-<<if $listened>>
+IF LISTENED
 Maxwell: “And, thanks for listenin’ to me.”
 ===
 title: MHealingThreeWrong
@@ -120,21 +123,13 @@ tags:
 Maxwell: “Huh, nothin’s really changed.”
 Maxwell: “...”
 Maxwell: “Maybe I need to sleep on it, eh?”
-<<if $listened>>
+IF LISTENED
 Maxwell: “But, thanks for listenin’ to me.”
-===
-title: MHealingThreeCorrect
-tags:
----
-Maxwell: “The lumps! They’re all gone.”
-Maxwell: “You’re an absolute miracle worker.”
-<<if $listened>>
-Maxwell: “And, thanks for listenin’ to me.”
 ===
 title: MFinishCorrect
 tags:
 ---
-<<if $listened>>
+IF LISTENED
 Maxwell: “You know, I think it’s all gonna be alright.”
 Maxwell: “I came in here feeling all muddled up, but now-”
 Maxwell: “My head feels clearer, and I ain’t stressin’ anymore.”
@@ -147,9 +142,9 @@ Maxwell: “How about this.”
 Maxwell: “Carved that one myself. Wouldn’t say I’m a pro or anythin’, but not too shabby, if I do say so myself.”
 Maxwell: “Take care, doc.”
 
-<<else>>
+ELSE
 <<jump MFinishIncorrect>>
-<<endif>>
+END IF
 ===
 title: MFinishIncorrect
 tags:
@@ -172,7 +167,7 @@ Jinx: “No matter, time for rest, hm?”
 Jinx: “Tomorrow is a new day.”
 ===
 
-title: EndDayINorrect
+title: EndDayIncorrect
 tags:
 ---
 Jinx: “Looks like that’s gonna be it for today.”

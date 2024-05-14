@@ -19,6 +19,7 @@ public class ChangeScene : MonoBehaviour
     }
     public void Change()
     {
+        button.SetActive(false);
         animator.SetTrigger("FadeOutScene");
     }
     public void NewScene(string scene)

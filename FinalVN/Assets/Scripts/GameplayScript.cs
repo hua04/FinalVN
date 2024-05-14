@@ -1,18 +1,22 @@
-using UnityEngine;
 using System;
 using System.IO.Ports;
-using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using Yarn.Unity;
 
 public class GameplayScript : MonoBehaviour
 {
 	public SerialPort serialPort;
+	public DialogueRunner dialogueRunner;
 
 	public int phaseCount = 1;
 	public int[] playerInput = new int[5];
+	public TextMeshProUGUI[] phaseOneDisplay = new TextMeshProUGUI[5];
+	public TextMeshProUGUI[] phaseTwoDisplay = new TextMeshProUGUI[5];
+	public TextMeshProUGUI[] phaseThreeDisplay = new TextMeshProUGUI[5];
 	public int stepCount = 0;
 
 	public bool correct = true;
-
 	public CharacterData character;
 
 	public PlayerInput playerInputScript;
@@ -25,12 +29,14 @@ public class GameplayScript : MonoBehaviour
 	{
 		serialPort = new SerialPort("COM8", 9600);
 		serialPort.Open();
+		DisableScript();
+		dialogueRunner = FindObjectOfType<Yarn.Unity.DialogueRunner>();
 	}
 
 	private void Update()
 	{
+
 		ArduinoCode();
-		ActivateScript();
 
 		const int threshold = 100;
 
@@ -64,88 +70,135 @@ public class GameplayScript : MonoBehaviour
 			currentKey = 5;
 		}
 
+
 	}
 
 
 
 	public void PressComplete()
 	{
-
 		playerInput[stepCount] = currentKey; //Get pressure sensor number(we attach a number to each sensor)
-		stepCount++;
 
-		if (stepCount == 5)
+
+
+		if (phaseCount == 1)
 		{
-			phaseCount++;
+			//disable progressbar script
 
-			if (phaseCount == 2)
+
+			Debug.Log(playerInput[stepCount]);
+			phaseOneDisplay[stepCount].text = playerInput[stepCount].ToString();
+			if (playerInput[stepCount] == character.phaseOne[stepCount] && correct == true)
 			{
-				//disable progressbar script
-				playerInputScript.enabled = false;
+				correct = true;
+				//Debug.Log(playerInput[i] + "=" + character.phaseOne[i]);
+			}
+			else
+			{
+				correct = false;
+				//Debug.Log("False");
 
-				for (int i = 0; i < 4; i++)
+			}
+			stepCount++;
+			if (stepCount == 5)
+			{
+				DisableScript();
+				if (correct)
 				{
-					if (playerInput[i] == character.phaseOne[i] && correct == true)
-					{
-						correct = true;
-						//Debug.Log(playerInput[i] + "=" + character.phaseOne[i]);
-					}
-					else
-					{
-						correct = false;
-						//Debug.Log("False");
-					}
+					dialogueRunner.StartDialogue("MHealingOneCorrect");
 				}
-
-				Array.Clear(playerInput, 0, playerInput.Length);
+				else
+				{
+					dialogueRunner.StartDialogue("MHealingOne");
+				}
 				stepCount = 0;
+				phaseCount++;
+				Array.Clear(playerInput, 0, playerInput.Length);
 
 			}
 
-
-			if (phaseCount == 3)
-			{
-
-				for (int i = 0; i < 4; i++)
-				{
-					if (playerInput[i] == character.phaseTwo[i] && correct == true)
-					{
-						correct = true;
-						//Debug.Log(playerInput[i] + "=" + character.phaseOne[i]);
-					}
-					else
-					{
-						correct = false;
-						//Debug.Log("False");
-					}
-				}
-				Array.Clear(playerInput, 0, playerInput.Length);
-				stepCount = 0;
-
-			}
-
-			if (phaseCount == 4)
-			{
-				for (int i = 0; i < 4; i++)
-				{
-					if (playerInput[i] == character.phaseThree[i] && correct == true)
-					{
-						correct = true;
-						//Debug.Log(playerInput[i] + "=" + character.phaseOne[i]);
-					}
-					else
-					{
-						correct = false;
-						//Debug.Log("False");
-					}
-				}
-				Array.Clear(playerInput, 0, playerInput.Length);
-				stepCount = 0;
-
-			}
 
 		}
 
+
+		if (phaseCount == 2)
+		{
+			Debug.Log(playerInput[stepCount]);
+			if (playerInput[stepCount] != 0)
+			{
+				phaseTwoDisplay[stepCount].text = playerInput[stepCount].ToString();
+				if (playerInput[stepCount] == character.phaseTwo[stepCount] && correct == true)
+				{
+					correct = true;
+					//Debug.Log(playerInput[i] + "=" + character.phaseOne[i]);
+				}
+				else
+				{
+					correct = false;
+					//Debug.Log("False");
+
+				}
+				stepCount++;
+                if (stepCount == 5)
+                {
+                    DisableScript();
+                    if (correct)
+                    {
+                        dialogueRunner.StartDialogue("MHealingTwoCorrect");
+                    }
+                    else
+                    {
+                        dialogueRunner.StartDialogue("MHealingTwo");
+                    }
+                    stepCount = 0;
+                    phaseCount++;
+                    Array.Clear(playerInput, 0, playerInput.Length);
+
+                }
+            }
+
+		}
+
+		if (phaseCount == 3)
+		{
+			Debug.Log(playerInput[stepCount]);
+			if (playerInput[stepCount] != 0)
+			{
+				phaseThreeDisplay[stepCount].text = playerInput[stepCount].ToString();
+				if (playerInput[stepCount] == character.phaseThree[stepCount] && correct == true)
+				{
+					correct = true;
+					//Debug.Log(playerInput[i] + "=" + character.phaseOne[i]);
+				}
+				else
+				{
+					correct = false;
+					//Debug.Log("False");
+
+				}
+				stepCount++;
+				if (stepCount == 5)
+				{
+					phaseCount++;
+					Array.Clear(playerInput, 0, playerInput.Length);
+					stepCount = 0;
+
+				}
+			}
+		}
+
+	}
+
+	public void Choice()
+	{
+		if (currentKey == 2)
+		{
+			dialogueRunner.StartDialogue("MHealingTwoReject");
+		}
+		if (currentKey == 3)
+		{
+            dialogueRunner.StartDialogue("MHealingTwoListen");
+        }
 	}
 
 	void ArduinoCode()
@@ -246,7 +299,7 @@ public class GameplayScript : MonoBehaviour
 		}
 	}
 
-	private bool CompareArrays(int[] array1, int[] array2)
+	/*private bool CompareArrays(int[] array1, int[] array2)
 	{
 		// Ensure both arrays have the same length
 		if (array1.Length != array2.Length)
@@ -266,16 +319,31 @@ public class GameplayScript : MonoBehaviour
 
 		// If all elements match, return true
 		return true;
-	}
+	}*/
 
+	[YarnCommand("sensor_on")]
 	public void ActivateScript()
 	{
-		if (Input.GetKeyDown(KeyCode.P) && playerInputScript.enabled == false)
+		if (playerInputScript.enabled == false)
 		{
 			playerInputScript.enabled = true;
 			Debug.Log("enabling script");
 		}
 	}
+
+	[YarnCommand("sensor_off")]
+	public void DisableScript()
+	{
+		if (playerInputScript.enabled == true)
+		{
+			playerInputScript.enabled = false;
+			Debug.Log("disabling script");
+		}
+	}
+
+
+
+
 }
 
 
