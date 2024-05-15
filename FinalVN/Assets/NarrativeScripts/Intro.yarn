@@ -1,24 +1,32 @@
 ﻿title: Intro
 tags:
 ---
+<<jinx_change SceneChange "Jinx neutral">>
 Jinx: “Ah, the prodigal witch returns!”
+<<jinx_change SceneChange "Jinx pleased">>
 Jinx: “Joking, joking. I’m glad you’re back.”
 Jinx: “...”
+<<jinx_change SceneChange "Jinx narrowed">>
 Jinx: “Why do you look so confused? I’m talking about you, dear healer.”
 Jinx: “...”
+<<jinx_change SceneChange "Jinx neutral">>
 Jinx: “Hmm, I see.”
 Jinx: “Though you look identical to the dear witch I knew...”
 Jinx: “Your spirit has changed.”
+Jinx: “...”
 Jinx: “No matter- Your role here remains the same.”
+<<jinx_change SceneChange "Jinx neutral">>
 Jinx: “In case you need a little refresher, all answers can be found in that little book of yours”
-Jinx: “It should be on your desk somewhere… with “The Healer’s Guide” on the cover.”
+Jinx: “It should be on your desk somewhere… with 'The Healer’s Guide' on the cover.”
 Jinx: “Give it a little look through, then we can start the day”
 Jinx: “...”
 Jinx: “Ready?”
+<<jinx_change SceneChange "Jinx pleased">>
 Jinx: “Time to let the day begin.”
 <<fade_out SceneChange>>
 <<set_scene SceneChange 1>>
 <<wait 3>>
+<<max_change SceneChange "MNeutral">>
 <<fade_in SceneChange>>
 
 ===
@@ -26,9 +34,12 @@ title: MFrontRoomOne
 tags:
 ---
 ???: “You the healer?” 
+<<max_change SceneChange "MConfused">>
 ???: “...”
+<<max_change SceneChange "MAnxious">>
 ???: “Ah, right. I was told that the healer was a person of few words.”
 ???: “I underestimated how few though.”
+<<max_change SceneChange "MNeutral">>
 ???: “Ahem, anyways-”
 Maxwell: “I’m new to these parts, the name’s Maxwell.”
 Maxwell: “Let’s cut to the chase-”
@@ -37,13 +48,16 @@ Maxwell: “an' I've been feeling awfully warm out of nowhere.”
 Maxwell: “Thought it might be a reaction to somethin’ in the forest, and it would just go away on its own.”
 Maxwell: “But well… They’re still here.” 
 Maxwell: “Think you can do somethin’ about it?”
+<<max_change SceneChange "MAnxious">>
 Maxwell: “...”
 Maxwell: “I’ll take that as a yes.”
+<<max_change SceneChange "MNeutral">>
 <<button_appear SceneChange>>
 ===
 title: MHealingZero
 tags:
 ---
+<<max_grab SceneChange>>
 Maxwell: “Hmm? Oh, back there?”
 Maxwell: “Ah, that must be where your healing room is?”
 Maxwell: “Well then, lead the way.”
@@ -56,25 +70,31 @@ Maxwell: “Nice setup you’ve got here.”
 title: MHealingOneCorrect
 tags:
 ---
+<<max_room_change SceneChange "MRHappy">>
 Maxwell: “Oh, that’s soothing…”
- <<jump MHealingOne>>
+<<max_room_change SceneChange "MRNeutral">>
+<<jump MHealingOne>>
 
 ===
 title: MHealingOne
 tags:
 ---
+
 Maxwell: “Say, I bet you get a lot of people in here blabbing their secrets to you, huh?”
 Maxwell: “I mean, it’s comfortable back here.”
 Maxwell: “An’ talkin’ to you is kinda like… talkin’ to a void.”
+<<max_room_change SceneChange "MRAnxious">>
 Maxwell: “No offense, of course.”
+<<max_room_change SceneChange "MRNeutral">>
 <<sensor_on GameplayScript>>
 ===
 title: MHealingTwoCorrect
 tags:
 ---
+<<max_room_change SceneChange "MRHappy">>
 Maxwell: “The itching, it’s fading!”
 Maxwell: “Man, you’re good at this.”
-
+<<max_room_change SceneChange "MRNeutral">>
  <<jump MHealingTwo>>
 
 ===
@@ -82,101 +102,190 @@ title: MHealingTwo
 tags:
 ---
 Maxwell: “So uh… it’s not like I’ve got any big secrets or nothin’.”
-Maxwell: “But you mind listening to some of my woes?”
+Maxwell: “But you mind listening to somethin' for a sec?”
+<<max_room_change SceneChange "MRAnxious">>
 Maxwell: “...”
+<<max_room_change SceneChange "MRNeutral">>
 Maxwell: “Oh, right, no talking.”
+<<max_room_change SceneChange "MRConfused">>
 Maxwell: “Uh... let's see...”
-Maxwell: “Left hand yes, right hand no? Your left and right, not mine.”
-
+<<max_room_change SceneChange "MRNeutral">>
+Maxwell: “Left hand no, right hand yes? Your left and right, not mine.”
+<<choice GameplayScript>>
 ===
 title: MHealingTwoReject
 tags:
 ---
-Maxwell: “Got it, got it. Professional boundaries and all.”
+<<listen GameplayScript false>>
+Maxwell: “No? That's fair.”
+<<max_room_change SceneChange "MRAnxious">>
+Maxwell: “It must get exhausting listening to people talk all day.”
+<<max_room_change SceneChange "MRNeutral">>
+<<sensor_on GameplayScript>>
 ===
 title: MHealingTwoListen
 tags:
 ---
+<<listen GameplayScript true>>
+<<max_room_change SceneChange "MRHappy">>
+Maxwell: “Yes? Don't mind if I do then.”
+<<max_room_change SceneChange "MRNeutral">>
+Maxwell: “Ah... where to start...”
 Maxwell: “So ya know, I recently moved into this area.”
 Maxwell: “An’ that was because, well, I wanted to try my hand at adventurin’.”
+<<max_room_change SceneChange "MRUpset">>
 Maxwell: “But we’re a few months in, and all I got to show for it are these darn lumps.”
+<<max_room_change SceneChange "MRNeutral">>
 Maxwell: “It’s only been a few months, but I’m all alone out here and… it’s rough having nothing to come home to.”
 Maxwell: “Everyone wants to talk about persistence and hard work payin’ off, but…”
+<<max_room_change SceneChange "MRUpset">>
 Maxwell: “What if it never does?”
 Maxwell: “Maybe I just ain’t cut out for this adventurin’ stuff…”
 Maxwell: “...”
+<<max_room_change SceneChange "MRNeutral">>
 Maxwell: “That’s all! Just needed to get that off my chest.”
+<<max_room_change SceneChange "MRHappy">>
 Maxwell: “Thanks for listenin’.”
-LISTENED TRUE
+<<max_room_change SceneChange "MRNeutral">>
+<<sensor_on GameplayScript>>
+===
+title: MHealingThreeCorrectListened
+tags:
+---
+<<max_room_change SceneChange "MHRHappy">>
+Maxwell: “The lumps! They’re all gone.”
+Maxwell: “You’re an absolute miracle worker.”
+Maxwell: “And, thanks for listenin’ to me.”
+<<final_change SceneChange>>
+
+<<jump MFinishCorrect>>
+
 ===
 title: MHealingThreeCorrect
 tags:
 ---
+<<max_room_change SceneChange "MHRHappy">>
 Maxwell: “The lumps! They’re all gone.”
 Maxwell: “You’re an absolute miracle worker.”
-IF LISTENED
-Maxwell: “And, thanks for listenin’ to me.”
+<<final_change SceneChange>>
+
+<<jump MFinishIncorrectHealed>>
 ===
+
+title: MHealingThreeWrongListened
+tags:
+---
+<<max_room_change SceneChange "MRUpset">>
+Maxwell: “Huh, nothin’s really changed.”
+Maxwell: “...”
+<<max_room_change SceneChange "MRAnxious">>
+Maxwell: “Maybe I need to sleep on it, eh?”
+<<max_room_change SceneChange "MRHappy">>
+Maxwell: “But, thanks for listenin’ to me.”
+<<final_change SceneChange>>
+
+<<jump MFinishIncorrect>>
+===
+
 title: MHealingThreeWrong
 tags:
 ---
+<<max_room_change SceneChange "MRUpset">>
 Maxwell: “Huh, nothin’s really changed.”
 Maxwell: “...”
+<<max_room_change SceneChange "MRAnxious">>
 Maxwell: “Maybe I need to sleep on it, eh?”
-IF LISTENED
-Maxwell: “But, thanks for listenin’ to me.”
+<<final_change SceneChange>>
+
+<<jump MFinishIncorrect>>
 ===
+
 title: MFinishCorrect
 tags:
 ---
-IF LISTENED
+<<max_change SceneChange "MNeutral">>
+<<wait 3>>
+<<fade_in SceneChange>>
 Maxwell: “You know, I think it’s all gonna be alright.”
 Maxwell: “I came in here feeling all muddled up, but now-”
+<<max_change SceneChange "MHHappy">>
 Maxwell: “My head feels clearer, and I ain’t stressin’ anymore.”
 Maxwell: “All thanks to you.”
 Maxwell: “What do I owe you?”
+<<max_change SceneChange "MHConfused">>
 Maxwell: “...”
 Maxwell: “Why’re you shakin’ your head like that? Aw c'mon, I gotta give you something.”
-Maxwell: “How about this.”
+<<max_change SceneChange "MHHappy">>
+Maxwell: “How about this?”
 *Carved statue appears on the counter*
 Maxwell: “Carved that one myself. Wouldn’t say I’m a pro or anythin’, but not too shabby, if I do say so myself.”
 Maxwell: “Take care, doc.”
-
-ELSE
-<<jump MFinishIncorrect>>
-END IF
+<<fade_out SceneChange>>
+<<jump EndDayCorrect>>
 ===
+
 title: MFinishIncorrect
 tags:
 ---
+<<max_change SceneChange "MNeutral">>
+<<wait 3>>
+<<fade_in SceneChange>>
 Maxwell: “What do I owe you?”
+<<max_change SceneChange "MConfused">>
 Maxwell: “...”
 Maxwell: “You shakin’ your head like that… does that mean nothin’?”
+<<max_change SceneChange "MNeutral">>
 Maxwell: “Alright, well, if you say so.”
 Maxwell: “I’ll be headin’ out then.” 
+<<fade_out SceneChange>>
+<<jump EndDayIncorrect>>
+===
+
+title: MFinishIncorrectHealed
+tags:
+---
+<<max_change SceneChange "MNeutral">>
+<<wait 3>>
+<<fade_in SceneChange>>
+Maxwell: “What do I owe you?”
+<<max_change SceneChange "MHConfused">>
+Maxwell: “...”
+Maxwell: “You shakin’ your head like that… does that mean nothin’?”
+<<max_change SceneChange "MHNeutral">>
+Maxwell: “Alright, well, if you say so.”
+Maxwell: “I’ll be headin’ out then.” 
+<<fade_out SceneChange>>
+<<jump EndDayIncorrect>>
 ===
 
 title: EndDayCorrect
 tags:
 ---
+<<Jinx_change SceneChange "Jinx neutral">>
+<<fade_in SceneChange>>
 Jinx: “Looks like that’s gonna be it for today.”
-Jinx: “Not bad for being out of practice. I’m sure they’re pleased with the tenacity of your abilities.”
+<<Jinx_change SceneChange "Jinx pleased">>
+Jinx: “Not bad for being out of practice. I’m sure <i>they’re</i> pleased with the tenacity of your abilities.”
+<<Jinx_change SceneChange "Jinx narrowed">>
 Jinx: “Or were you perhaps still healing during our time apart?”
 Jinx: “...”
+<<Jinx_change SceneChange "Jinx neutral">>
 Jinx: “No matter, time for rest, hm?”
 Jinx: “Tomorrow is a new day.”
+<<fade_out SceneChange>>
 ===
 
 title: EndDayIncorrect
 tags:
 ---
+<<Jinx_change SceneChange "Jinx neutral">>
 Jinx: “Looks like that’s gonna be it for today.”
 Jinx: “You’re a little out of practice, hmm?”
 Jinx: “Not to worry, it’s to be expected.”
-Jinx: “I’m sure they will understand.”
+Jinx: “I’m sure <i>they</i> will understand.”
 Jinx: “No matter, time for rest, hm?”
 Jinx: “Tomorrow is a new day.”
-
+<<fade_out SceneChange>>
 ===
 
 

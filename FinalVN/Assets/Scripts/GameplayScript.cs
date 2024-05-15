@@ -17,6 +17,8 @@ public class GameplayScript : MonoBehaviour
 	public int stepCount = 0;
 
 	public bool correct = true;
+	public bool listened = false;
+	public bool choice = false;
 	public CharacterData character;
 
 	public PlayerInput playerInputScript;
@@ -27,10 +29,11 @@ public class GameplayScript : MonoBehaviour
 
 	private void Start()
 	{
-		serialPort = new SerialPort("COM8", 9600);
+		serialPort = new SerialPort("COM5", 9600);
 		serialPort.Open();
 		DisableScript();
 		dialogueRunner = FindObjectOfType<Yarn.Unity.DialogueRunner>();
+		choice=false;
 	}
 
 	private void Update()
@@ -50,12 +53,22 @@ public class GameplayScript : MonoBehaviour
 		if (sensorValues[1] < threshold)
 		{
 			currentKey = 2;
+
+			if (choice == true){
+				dialogueRunner.StartDialogue("MHealingTwoReject");
+				choice=false;
+			}
+
 		}
 
 		//A2
 		if (sensorValues[2] < threshold)
 		{
 			currentKey = 3;
+			if (choice == true){
+				dialogueRunner.StartDialogue("MHealingTwoListen");
+				choice=false;
+			}
 		}
 
 		//A3
@@ -179,27 +192,49 @@ public class GameplayScript : MonoBehaviour
 				stepCount++;
 				if (stepCount == 5)
 				{
-					phaseCount++;
-					Array.Clear(playerInput, 0, playerInput.Length);
-					stepCount = 0;
+					 DisableScript();
 
-				}
+                    if (correct && listened)
+                    {
+                        dialogueRunner.StartDialogue("MHealingThreeCorrectListened");
+                    }
+                    else if (correct && !listened)
+                    {
+                        dialogueRunner.StartDialogue("MHealingThreeCorrect");
+                    }
+					else if (!correct && listened)
+                    {
+                        dialogueRunner.StartDialogue("MHealingThreeWrongListened");
+                    }
+					else if (!correct && !listened)
+                    {
+                        dialogueRunner.StartDialogue("MHealingThreeWrong");
+                    }
+                    stepCount = 0;
+                    phaseCount++;
+                    Array.Clear(playerInput, 0, playerInput.Length);
+
+                }
+
+				
 			}
 		}
 
 	}
 
+[YarnCommand("choice")]
 	public void Choice()
 	{
-		if (currentKey == 2)
-		{
-			dialogueRunner.StartDialogue("MHealingTwoReject");
-		}
-		if (currentKey == 3)
-		{
-            dialogueRunner.StartDialogue("MHealingTwoListen");
-        }
+		Debug.Log("Choice");
+		choice = true;
 	}
+
+ [YarnCommand("listen")]
+    public void Listening(bool listen)
+    {
+        listened = listen;
+		Debug.Log (listened);
+    }
 
 	void ArduinoCode()
 	{
@@ -340,6 +375,7 @@ public class GameplayScript : MonoBehaviour
 			Debug.Log("disabling script");
 		}
 	}
+	
 
 
 

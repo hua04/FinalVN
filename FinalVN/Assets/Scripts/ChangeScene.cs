@@ -8,6 +8,7 @@ public class ChangeScene : MonoBehaviour
 {
     public Animator animator;
     public GameObject button;
+    public DialogueController dialogueController;
     public void Start()
     {
         button.SetActive(false);
@@ -25,5 +26,11 @@ public class ChangeScene : MonoBehaviour
     public void NewScene(string scene)
     {
         SceneManager.LoadScene(scene);
+    }
+
+    [YarnCommand("final_change")]
+    public void FinalChange()
+    {
+        animator.SetTrigger("OtherFadeOut");
     }
 }

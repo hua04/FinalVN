@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/HealingRoom.unity
     guid: 52e060cc0f11140c586fa8a7004b9d27
+  - enabled: 1
+    path: Assets/Scenes/FrontRoomEnd.unity
+    guid: f781446854c7e524b82561eded196520
   m_configObjects: {}
